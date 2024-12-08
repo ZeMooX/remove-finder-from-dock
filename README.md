@@ -12,7 +12,7 @@ The primary reason for doing so, is the lack of up to date and complete document
 
 You might be using a 3rd party file browser, don't want to waste valuable screen space, or simply don't need it.
 
-Also it can't be asked too much to simply remove an icon from the Dock now, is it?
+Also it can't be asked too much to simply remove an icon from the Dock, is it?
 
 ## Caveats
 
@@ -33,6 +33,8 @@ Due to macOS relying quiet heavily on Finder for some core system functionality 
 ## Tested Platform
 
 Apple MacBook Pro 13 – Late 2020 (13.30 ", M1, 16 GB, 512 GB) - macOS Monterey
+
+(Instructions for later MacOS versions provided as well)
 
 ![](https://raw.githubusercontent.com/ZeMooX/remove-finder-from-dock/main/md-img/about.png)
 
@@ -70,7 +72,7 @@ Having read all the previous points *meticulously* and still want to get rid of 
 
 ### 2) Mount the System Partition
 
-1. Launch a terminal application of your choice.
+1. Launch the terminal application of your choice.
 
 2. Create a new directory in your home directory. This new directory will be the mount point for the system partition.
    
@@ -110,9 +112,17 @@ Having read all the previous points *meticulously* and still want to get rid of 
 
 Open the following file in an editor of your choice:
 
+macOS versions **older** than Monterey:
 ```bash
 ~/systemmount/Library/Preferences/com.apple.finder.plist
 ```
+
+Monterey and later:
+```bash
+~/systemmount/Library/CoreServices/Dock.app/Contents/Resources/DockMenus.plist
+```
+<sub>Thank you [@journey-ad](https://github.com/journey-ad) for the feedback for Sequoia.</sub>
+
 
 Look for the `finder-running` section and add the following snippet within the `<array>`:
 
@@ -138,7 +148,7 @@ sudo bless --folder "~/systemmount/System/Library/CoreServices/" --bootefi --cre
 Monterey and later:
 
 ```bash
-sudo bless --mount "~/systemmount/System/Library/CoreServices" --setBoot --create-snapshot
+sudo bless --mount "/Users/<your_username>/systemmount/System/Library/CoreServices" --setBoot --create-snapshot
 ```
 
 ### 5) Reboot
@@ -150,3 +160,5 @@ After a reboot you should now be able to `Right Click Finder -> Options -> Remov
 - [python - Can I mount the root (system) filesystem as writable in macOS Monterey? - Stack Overflow](https://stackoverflow.com/questions/73048614/can-i-mount-the-root-system-filesystem-as-writable-in-macos-monterey)
 
 - [mac - MacOS 12.3.1 bless folder as bootable snapshot - Super User](https://superuser.com/questions/1715785/macos-12-3-1-bless-folder-as-bootable-snapshot)
+
+- [Feedback by @journey-ad](https://github.com/ZeMooX/remove-finder-from-dock/issues/1)
